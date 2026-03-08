@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Alert,
   Box,
@@ -28,7 +28,6 @@ type BookingFormProps = {
 
 export function BookingForm({ initialService }: BookingFormProps) {
   const serviceNames = SERVICES.map((service) => service.name);
-  const hasInteracted = useRef(false);
   const [step, setStep] = useState(1);
   const [service, setService] = useState<ServiceKey>(
     (serviceNames.includes(initialService as ServiceKey)
@@ -51,6 +50,8 @@ export function BookingForm({ initialService }: BookingFormProps) {
   );
 
   useEffect(() => {
+    if (step !== 3) return;
+
     let active = true;
     setLoadingSlots(true);
     setTimeSlot("");
@@ -72,10 +73,8 @@ export function BookingForm({ initialService }: BookingFormProps) {
       })
       .catch((error: unknown) => {
         if (active) {
-          if (hasInteracted.current) {
-            const message = error instanceof Error ? error.message : "Failed to load availability.";
-            setErrorMessage(message);
-          }
+          const message = error instanceof Error ? error.message : "Failed to load availability.";
+          setErrorMessage(message);
           setSlots([]);
         }
       })
@@ -88,7 +87,7 @@ export function BookingForm({ initialService }: BookingFormProps) {
     return () => {
       active = false;
     };
-  }, [date, service]);
+  }, [date, service, step]);
 
   const canGoNextFromStep4 = customerName.length > 1 && phone.length > 5 && email.includes("@");
 
@@ -149,10 +148,7 @@ export function BookingForm({ initialService }: BookingFormProps) {
         </Text>
         <select
           value={service}
-          onChange={(event) => {
-            hasInteracted.current = true;
-            setService(event.target.value as ServiceKey);
-          }}
+          onChange={(event) => setService(event.target.value as ServiceKey)}
           style={{
             width: "100%",
             background: "#1A1A1A",
@@ -179,10 +175,7 @@ export function BookingForm({ initialService }: BookingFormProps) {
           value={date}
           min={format(new Date(), "yyyy-MM-dd")}
           max={dateMax}
-          onChange={(event) => {
-            hasInteracted.current = true;
-            setDate(event.target.value);
-          }}
+          onChange={(event) => setDate(event.target.value)}
         />
       </Box>
 
@@ -196,6 +189,8 @@ export function BookingForm({ initialService }: BookingFormProps) {
               <Skeleton key={index} h="42px" borderRadius="md" />
             ))}
           </Grid>
+        ) : slots.length === 0 ? (
+          <Text color="yellow.300">No available slots for this date. Please choose another day.</Text>
         ) : (
           <Grid templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }} gap={3}>
             {slots.map((slot) => (

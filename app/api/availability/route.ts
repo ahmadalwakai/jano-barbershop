@@ -24,6 +24,8 @@ export async function GET(request: Request) {
   const allSlots = generateSlots(date, service);
   const { bookings, blockedSlots } = await getBookingsAndBlocks(date);
 
+  console.log("Availability request:", { date, service, duration, totalSlots: allSlots.length, bookings: bookings.length, blockedSlots: blockedSlots.length });
+
   const slots = allSlots.map((slot) => {
     if (hasBlockedConflict(date, slot, duration, blockedSlots)) {
       return { time: slot, status: "blocked" as const };
