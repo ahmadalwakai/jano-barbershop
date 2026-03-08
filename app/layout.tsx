@@ -4,6 +4,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import { LocalBusinessJsonLd } from "next-seo";
 import { Box } from "@chakra-ui/react";
 import { Providers } from "@/components/Providers";
+import { AmbientBackground } from "@/components/AmbientBackground";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { BUSINESS_INFO } from "@/lib/business";
@@ -63,7 +64,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className={`${inter.variable} ${playfair.variable}`} suppressHydrationWarning>
       <body>
         <Providers>
-          <Box minH="100vh" bg="charcoal.500" color="white">
+          <AmbientBackground />
+          <Box position="relative" zIndex={1} minH="100vh" bg="charcoal.500" color="white">
             <Navbar />
             {children}
             <Footer />

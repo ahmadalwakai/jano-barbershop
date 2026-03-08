@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Box, Container, Grid, Heading, Stack, Text } from "@chakra-ui/react";
 import { ContactForm } from "@/components/ContactForm";
+import { PageTransition } from "@/components/PageTransition";
 import { BUSINESS_INFO, OPENING_HOURS } from "@/lib/business";
 
 export const metadata: Metadata = {
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
+    <PageTransition>
     <Box as="main" py={10}>
       <Container maxW="7xl" px={{ base: 4, md: 6 }}>
         <Heading size="4xl" mb={8}>
@@ -39,5 +41,6 @@ export default function ContactPage() {
         </Grid>
       </Container>
     </Box>
+    </PageTransition>
   );
 }

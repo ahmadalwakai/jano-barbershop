@@ -12,6 +12,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { format } from "date-fns";
 import { SERVICES, type ServiceKey } from "@/lib/business";
 
@@ -26,8 +27,47 @@ type BookingFormProps = {
   initialService?: string;
 };
 
+const TOTAL_STEPS = 5;
+
+const stepVariants = {
+  enter: { x: 60, opacity: 0 },
+  center: { x: 0, opacity: 1 },
+  exit: { x: -60, opacity: 0 },
+};
+
+function StepDots({ current, total }: { current: number; total: number }) {
+  const prefersReducedMotion = useReducedMotion();
+
+  return (
+    <HStack justify="center" gap={2} mb={4}>
+      {Array.from({ length: total }).map((_, i) => (
+        <motion.div
+          key={i}
+          style={{
+            width: 10,
+            height: 10,
+            borderRadius: "50%",
+            background: i + 1 === current ? "#C9A84C" : "rgba(255,255,255,0.3)",
+          }}
+          animate={
+            i + 1 === current && !prefersReducedMotion
+              ? { scale: [1, 1.3, 1], background: ["#C9A84C", "#d7b560", "#C9A84C"] }
+              : undefined
+          }
+          transition={
+            i + 1 === current && !prefersReducedMotion
+              ? { duration: 1.5, repeat: Infinity, ease: "easeInOut" }
+              : undefined
+          }
+        />
+      ))}
+    </HStack>
+  );
+}
+
 export function BookingForm({ initialService }: BookingFormProps) {
   const serviceNames = SERVICES.map((service) => service.name);
+  const prefersReducedMotion = useReducedMotion();
   const [step, setStep] = useState(1);
   const [service, setService] = useState<ServiceKey>(
     (serviceNames.includes(initialService as ServiceKey)
@@ -63,7 +103,6 @@ export function BookingForm({ initialService }: BookingFormProps) {
         if (!response.ok) {
           throw new Error(data.error ?? "Failed to load availability.");
         }
-
         return data;
       })
       .then((data: { slots: SlotItem[] }) => {
@@ -133,6 +172,8 @@ export function BookingForm({ initialService }: BookingFormProps) {
         Appointment bookings include a £5–£7 convenience fee.
       </Text>
 
+      <StepDots current={step} total={TOTAL_STEPS} />
+
       {errorMessage ? (
         <Alert.Root status="error" borderRadius="md">
           <Alert.Indicator />
@@ -142,104 +183,160 @@ export function BookingForm({ initialService }: BookingFormProps) {
         </Alert.Root>
       ) : null}
 
-      <Box display={step === 1 ? "block" : "none"}>
-        <Text mb={2} fontWeight="700">
-          Step 1: Select service
-        </Text>
-        <select
-          value={service}
-          onChange={(event) => setService(event.target.value as ServiceKey)}
-          style={{
-            width: "100%",
-            background: "#1A1A1A",
-            color: "white",
-            border: "1px solid #C9A84C",
-            borderRadius: 8,
-            padding: 12,
-          }}
-        >
-          {SERVICES.map((item) => (
-            <option key={item.name} value={item.name}>
-              {item.name} — Walk-in £{item.walkInPrice} / Appointment £{item.appointmentPrice}
-            </option>
-          ))}
-        </select>
-      </Box>
-
-      <Box display={step === 2 ? "block" : "none"}>
-        <Text mb={2} fontWeight="700">
-          Step 2: Select date
-        </Text>
-        <Input
-          type="date"
-          value={date}
-          min={format(new Date(), "yyyy-MM-dd")}
-          max={dateMax}
-          onChange={(event) => setDate(event.target.value)}
-        />
-      </Box>
-
-      <Box display={step === 3 ? "block" : "none"}>
-        <Text mb={2} fontWeight="700">
-          Step 3: Select time slot
-        </Text>
-        {loadingSlots ? (
-          <Grid templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }} gap={3}>
-            {Array.from({ length: 8 }).map((_, index) => (
-              <Skeleton key={index} h="42px" borderRadius="md" />
-            ))}
-          </Grid>
-        ) : slots.length === 0 ? (
-          <Text color="yellow.300">No available slots for this date. Please choose another day.</Text>
-        ) : (
-          <Grid templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }} gap={3}>
-            {slots.map((slot) => (
-              <Button
-                key={slot.time}
-                variant={slot.status === "open" ? "solid" : "outline"}
-                bg={slot.time === timeSlot ? "brand.400" : slot.status === "open" ? "whiteAlpha.200" : "transparent"}
-                color={slot.time === timeSlot ? "black" : "white"}
-                borderColor="whiteAlpha.400"
-                disabled={slot.status !== "open"}
-                onClick={() => setTimeSlot(slot.time)}
+      <Box position="relative" minH="160px" overflow="hidden">
+        <AnimatePresence mode="wait">
+          {step === 1 && (
+            <motion.div
+              key="step1"
+              variants={prefersReducedMotion ? undefined : stepVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.3 }}
+            >
+              <Text mb={2} fontWeight="700">
+                Step 1: Select service
+              </Text>
+              <select
+                value={service}
+                onChange={(event) => setService(event.target.value as ServiceKey)}
+                style={{
+                  width: "100%",
+                  background: "#1A1A1A",
+                  color: "white",
+                  border: "1px solid #C9A84C",
+                  borderRadius: 8,
+                  padding: 12,
+                }}
               >
-                {slot.time} {slot.status !== "open" ? `(${slot.status})` : ""}
+                {SERVICES.map((item) => (
+                  <option key={item.name} value={item.name}>
+                    {item.name} — Walk-in £{item.walkInPrice} / Appointment £{item.appointmentPrice}
+                  </option>
+                ))}
+              </select>
+            </motion.div>
+          )}
+
+          {step === 2 && (
+            <motion.div
+              key="step2"
+              variants={prefersReducedMotion ? undefined : stepVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.3 }}
+            >
+              <Text mb={2} fontWeight="700">
+                Step 2: Select date
+              </Text>
+              <Input
+                type="date"
+                value={date}
+                min={format(new Date(), "yyyy-MM-dd")}
+                max={dateMax}
+                onChange={(event) => setDate(event.target.value)}
+              />
+            </motion.div>
+          )}
+
+          {step === 3 && (
+            <motion.div
+              key="step3"
+              variants={prefersReducedMotion ? undefined : stepVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.3 }}
+            >
+              <Text mb={2} fontWeight="700">
+                Step 3: Select time slot
+              </Text>
+              {loadingSlots ? (
+                <Grid templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }} gap={3}>
+                  {Array.from({ length: 8 }).map((_, index) => (
+                    <Skeleton key={index} h="42px" borderRadius="md" />
+                  ))}
+                </Grid>
+              ) : slots.length === 0 ? (
+                <Text color="yellow.300">No available slots for this date. Please choose another day.</Text>
+              ) : (
+                <Grid templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }} gap={3}>
+                  {slots.map((slot, index) => (
+                    <motion.div
+                      key={slot.time}
+                      initial={prefersReducedMotion ? undefined : { opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: index * 0.04 }}
+                    >
+                      <Button
+                        w="100%"
+                        variant={slot.status === "open" ? "solid" : "outline"}
+                        bg={slot.time === timeSlot ? "brand.400" : slot.status === "open" ? "whiteAlpha.200" : "transparent"}
+                        color={slot.time === timeSlot ? "black" : "white"}
+                        borderColor="whiteAlpha.400"
+                        disabled={slot.status !== "open"}
+                        onClick={() => setTimeSlot(slot.time)}
+                      >
+                        {slot.time} {slot.status !== "open" ? `(${slot.status})` : ""}
+                      </Button>
+                    </motion.div>
+                  ))}
+                </Grid>
+              )}
+            </motion.div>
+          )}
+
+          {step === 4 && (
+            <motion.div
+              key="step4"
+              variants={prefersReducedMotion ? undefined : stepVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.3 }}
+            >
+              <Text mb={2} fontWeight="700">
+                Step 4: Your details
+              </Text>
+              <Stack gap={3}>
+                <Input placeholder="Full name" value={customerName} onChange={(event) => setCustomerName(event.target.value)} />
+                <Input placeholder="Phone" value={phone} onChange={(event) => setPhone(event.target.value)} />
+                <Input placeholder="Email" value={email} onChange={(event) => setEmail(event.target.value)} />
+              </Stack>
+            </motion.div>
+          )}
+
+          {step === 5 && (
+            <motion.div
+              key="step5"
+              variants={prefersReducedMotion ? undefined : stepVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.3 }}
+            >
+              <Text mb={2} fontWeight="700">
+                Step 5: Checkout
+              </Text>
+              <Stack gap={2} mb={4}>
+                <Text>Service: {selectedService.name}</Text>
+                <Text>Date: {date}</Text>
+                <Text>Time: {timeSlot}</Text>
+                <Text>Price: £{selectedService.appointmentPrice}</Text>
+              </Stack>
+              <Button
+                bg="brand.400"
+                color="black"
+                _hover={{ bg: "brand.300" }}
+                onClick={handlePayment}
+                loading={submitting}
+              >
+                Proceed to Stripe Payment
               </Button>
-            ))}
-          </Grid>
-        )}
-      </Box>
-
-      <Box display={step === 4 ? "block" : "none"}>
-        <Text mb={2} fontWeight="700">
-          Step 4: Your details
-        </Text>
-        <Stack gap={3}>
-          <Input placeholder="Full name" value={customerName} onChange={(event) => setCustomerName(event.target.value)} />
-          <Input placeholder="Phone" value={phone} onChange={(event) => setPhone(event.target.value)} />
-          <Input placeholder="Email" value={email} onChange={(event) => setEmail(event.target.value)} />
-        </Stack>
-      </Box>
-
-      <Box display={step === 5 ? "block" : "none"}>
-        <Text mb={2} fontWeight="700">
-          Step 5: Checkout
-        </Text>
-        <Stack gap={2} mb={4}>
-          <Text>Service: {selectedService.name}</Text>
-          <Text>Date: {date}</Text>
-          <Text>Time: {timeSlot}</Text>
-          <Text>Price: £{selectedService.appointmentPrice}</Text>
-        </Stack>
-        <Button
-          bg="brand.400"
-          color="black"
-          _hover={{ bg: "brand.300" }}
-          onClick={handlePayment}
-          loading={submitting}
-        >
-          Proceed to Stripe Payment
-        </Button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </Box>
 
       <HStack justify="space-between">

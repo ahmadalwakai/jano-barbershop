@@ -1,21 +1,20 @@
 "use client";
 
 import { Box, type BoxProps } from "@chakra-ui/react";
-import { motion } from "framer-motion";
-
-const MotionDiv = motion.div;
+import { motion, useReducedMotion } from "framer-motion";
 
 export function SectionReveal(props: BoxProps) {
   const { children, ...rest } = props;
+  const prefersReducedMotion = useReducedMotion();
 
   return (
-    <MotionDiv
-      initial={{ opacity: 0, y: 20 }}
+    <motion.div
+      initial={prefersReducedMotion ? undefined : { opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
       <Box {...rest}>{children}</Box>
-    </MotionDiv>
+    </motion.div>
   );
 }

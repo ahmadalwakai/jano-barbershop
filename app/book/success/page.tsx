@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Box, Button, Container, Heading, Stack, Text } from "@chakra-ui/react";
+import { PageTransition } from "@/components/PageTransition";
 
 export const metadata: Metadata = {
   title: "Booking Confirmed | Jano Barbershop",
@@ -16,6 +17,7 @@ export default async function BookingSuccessPage({
   const sessionId = typeof params.session_id === "string" ? params.session_id : "";
 
   return (
+    <PageTransition>
     <Box as="main" py={16}>
       <Container maxW="2xl" textAlign="center">
         <Stack gap={4}>
@@ -28,5 +30,6 @@ export default async function BookingSuccessPage({
         </Stack>
       </Container>
     </Box>
+    </PageTransition>
   );
 }
