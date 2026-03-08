@@ -2,19 +2,5 @@
   "buildCommand": "npx prisma generate && next build",
   "installCommand": "npm install",
   "framework": "nextjs",
-  "regions": ["lhr1"],
-  "env": {
-    "DATABASE_URL": "@database_url",
-    "STRIPE_SECRET_KEY": "@stripe_secret_key",
-    "STRIPE_PUBLISHABLE_KEY": "@stripe_publishable_key",
-    "STRIPE_WEBHOOK_SECRET": "@stripe_webhook_secret",
-    "ADMIN_EMAIL": "@admin_email",
-    "ADMIN_PASSWORD": "@admin_password",
-    "ADMIN_SESSION_SECRET": "@admin_session_secret",
-    "RESEND_API_KEY": "@resend_api_key",
-    "NEXT_PUBLIC_SITE_URL": "@next_public_site_url",
-    "NEXT_PUBLIC_GA_ID": "@next_public_ga_id",
-    "NEXT_PUBLIC_FB_PIXEL_ID": "@next_public_fb_pixel_id",
-    "REQUIRE_DEPOSIT": "@require_deposit"
-  }
+  "regions": ["lhr1"]
 }

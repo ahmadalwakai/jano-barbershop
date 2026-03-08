@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Alert,
   Box,
@@ -28,6 +28,7 @@ type BookingFormProps = {
 
 export function BookingForm({ initialService }: BookingFormProps) {
   const serviceNames = SERVICES.map((service) => service.name);
+  const hasInteracted = useRef(false);
   const [step, setStep] = useState(1);
   const [service, setService] = useState<ServiceKey>(
     (serviceNames.includes(initialService as ServiceKey)
@@ -71,8 +72,10 @@ export function BookingForm({ initialService }: BookingFormProps) {
       })
       .catch((error: unknown) => {
         if (active) {
-          const message = error instanceof Error ? error.message : "Failed to load availability.";
-          setErrorMessage(message);
+          if (hasInteracted.current) {
+            const message = error instanceof Error ? error.message : "Failed to load availability.";
+            setErrorMessage(message);
+          }
           setSlots([]);
         }
       })
@@ -146,7 +149,10 @@ export function BookingForm({ initialService }: BookingFormProps) {
         </Text>
         <select
           value={service}
-          onChange={(event) => setService(event.target.value as ServiceKey)}
+          onChange={(event) => {
+            hasInteracted.current = true;
+            setService(event.target.value as ServiceKey);
+          }}
           style={{
             width: "100%",
             background: "#1A1A1A",
@@ -173,7 +179,10 @@ export function BookingForm({ initialService }: BookingFormProps) {
           value={date}
           min={format(new Date(), "yyyy-MM-dd")}
           max={dateMax}
-          onChange={(event) => setDate(event.target.value)}
+          onChange={(event) => {
+            hasInteracted.current = true;
+            setDate(event.target.value);
+          }}
         />
       </Box>
 
