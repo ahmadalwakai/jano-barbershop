@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Booking {
+  id           String   @id @default(cuid())
+  service      String
+  date         DateTime
+  timeSlot     String
+  customerName String
+  phone        String
+  email        String
+  paid         Boolean  @default(false)
+  stripeId     String?
+  createdAt    DateTime @default(now())
+
+  @@index([date])
+}
+
+model BlockedSlot {
+  id       String   @id @default(cuid())
+  date     DateTime
+  timeSlot String
+  reason   String?
+
+  @@index([date])
+}

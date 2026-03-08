@@ -1,0 +1,11 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /api
+Disallow: /admin
+
+# Host
+Host: https://jan-o.com
+
+# Sitemaps
+Sitemap: https://jan-o.com/sitemap.xml
