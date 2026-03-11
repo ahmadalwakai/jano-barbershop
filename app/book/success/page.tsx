@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Script from "next/script";
 import { Box, Button, Container, Heading, Stack, Text } from "@chakra-ui/react";
 import { PageTransition } from "@/components/PageTransition";
 
@@ -30,6 +31,18 @@ export default async function BookingSuccessPage({
         </Stack>
       </Container>
     </Box>
+
+    {process.env.NEXT_PUBLIC_GA_ID && (
+      <Script id="gtag-conversion" strategy="afterInteractive">
+        {`
+          gtag('event', 'conversion', {
+            'send_to': '${process.env.NEXT_PUBLIC_GA_ID}',
+            'event_category': 'booking',
+            'event_label': 'booking_confirmed'
+          });
+        `}
+      </Script>
+    )}
     </PageTransition>
   );
 }
