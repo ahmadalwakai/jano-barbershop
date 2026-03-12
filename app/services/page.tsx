@@ -5,7 +5,8 @@ import { PageTransition } from "@/components/PageTransition";
 import { SERVICES } from "@/lib/business";
 
 export const metadata: Metadata = {
-  title: "Services | Jano Barbershop Glasgow",
+  title: "Barbershop Services & Prices Glasgow G69 | Jano",
+  description: "View all services and prices at Jano Barbershop Glasgow. Skin fades from £15, beard trims from £10, kids cuts from £12. Walk-ins welcome.",
   alternates: { canonical: "/services" },
 };
 

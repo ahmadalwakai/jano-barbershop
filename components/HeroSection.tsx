@@ -55,7 +55,7 @@ export function HeroSection() {
           >
             {words.map((word, i) => (
               <motion.span key={i} variants={wordVariants}>
-                {word}
+                {word}{i < words.length - 1 ? " " : ""}
               </motion.span>
             ))}
           </motion.span>

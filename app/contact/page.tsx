@@ -5,7 +5,8 @@ import { PageTransition } from "@/components/PageTransition";
 import { BUSINESS_INFO, OPENING_HOURS } from "@/lib/business";
 
 export const metadata: Metadata = {
-  title: "Contact | Jano Barbershop",
+  title: "Contact Jano Barbershop Glasgow | 0141 737 5705",
+  description: "Contact Jano Barbershop at 178 Cumbernauld Road, Glasgow G69 9NB. Call 0141 737 5705. Open 7 days a week.",
   alternates: { canonical: "/contact" },
 };
 

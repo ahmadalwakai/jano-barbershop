@@ -4,7 +4,8 @@ import { BookingForm } from "@/components/BookingForm";
 import { PageTransition } from "@/components/PageTransition";
 
 export const metadata: Metadata = {
-  title: "Book Appointment | Jano Barbershop",
+  title: "Book a Skin Fade in Glasgow G69 | Jano Barbershop",
+  description: "Book your haircut online at Jano Barbershop Glasgow. Expert skin fades, beard trims & kids cuts. Same day slots available. Open 7 days.",
   alternates: { canonical: "/book" },
 };
 

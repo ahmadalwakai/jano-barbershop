@@ -92,3 +92,26 @@ export const TESTIMONIALS = [
       "Took my son for a kids fade and he loved it. Professional and welcoming every time.",
   },
 ];
+
+export const FAQS = [
+  {
+    q: "How much is a skin fade in Glasgow?",
+    a: "A skin fade at Jano Barbershop starts from £15 for walk-ins and £20 for appointments.",
+  },
+  {
+    q: "Do you accept walk-ins?",
+    a: "Yes, we welcome walk-ins 7 days a week. Mon–Sat 9AM–6PM, Sunday 9AM–5PM.",
+  },
+  {
+    q: "Where is Jano Barbershop located?",
+    a: "We're at 178 Cumbernauld Road, Muirhead, Glasgow G69 9NB, near Chryston and Stepps.",
+  },
+  {
+    q: "Can I book a kids haircut online?",
+    a: "Yes, kids skin fades are available from £12 walk-in or £16 by appointment.",
+  },
+  {
+    q: "Do you offer beard trims?",
+    a: "Yes, beard trims start from £10 walk-in. Hot towel shave packages also available from £28.",
+  },
+];
