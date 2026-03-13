@@ -23,14 +23,7 @@ export function HeroSection() {
           Jan Istanbul • Jano
         </Badge>
 
-        <motion.h1
-          initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", fontWeight: 800, lineHeight: 1.1, color: "white" }}
-        >
-          Premium Cuts. Classic Style. Glasgow&apos;s Finest.
-        </motion.h1>
+        {/* H1 is now rendered in page.tsx for SSR */}
 
         <Text color="whiteAlpha.800" fontSize="lg">
           Premium barbershop experience in Glasgow for sharp skin fades, traditional shaves, and modern styling.
