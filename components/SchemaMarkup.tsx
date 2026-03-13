@@ -35,11 +35,6 @@ export function LocalBusinessSchema() {
       },
     ],
     priceRange: "££",
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      reviewCount: "85",
-    },
     sameAs: [
       "https://www.instagram.com/janistanbul_barber",
       "https://www.facebook.com/janistanbulbarber",
