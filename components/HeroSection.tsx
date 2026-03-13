@@ -12,32 +12,12 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { motion, useReducedMotion, type Variants } from "framer-motion";
-import { BUSINESS_INFO } from "@/lib/business";
+import { motion, useReducedMotion } from "framer-motion";
 
-const wordVariants: Variants = {
-  hidden: { opacity: 0, y: 60 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
-};
-
-const containerVariants: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.15 } },
-};
-
-const badgeVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-};
-
-const badgeContainerVariants: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.6 } },
-};
+const MotionHeading = motion.create(Heading);
 
 export function HeroSection() {
   const prefersReducedMotion = useReducedMotion();
-  const words = BUSINESS_INFO.tagline.split(" ");
 
   return (
     <Grid templateColumns={{ base: "1fr", lg: "1.1fr 1fr" }} gap={8} alignItems="center">
@@ -46,20 +26,16 @@ export function HeroSection() {
           Jan Istanbul • Jano
         </Badge>
 
-        <Heading as="h1" size="5xl" lineHeight="1.1">
-          <motion.span
-            style={{ display: "flex", flexWrap: "wrap", gap: "0 0.3em" }}
-            variants={containerVariants}
-            initial={prefersReducedMotion ? "visible" : "hidden"}
-            animate="visible"
-          >
-            {words.map((word, i) => (
-              <motion.span key={i} variants={wordVariants}>
-                {word}{i < words.length - 1 ? " " : ""}
-              </motion.span>
-            ))}
-          </motion.span>
-        </Heading>
+        <MotionHeading
+          as="h1"
+          size="5xl"
+          lineHeight="1.1"
+          initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+        >
+          Premium Cuts. Classic Style. Glasgow&apos;s Finest.
+        </MotionHeading>
 
         <Text color="whiteAlpha.800" fontSize="lg">
           Premium barbershop experience in Glasgow for sharp skin fades, traditional shaves, and modern styling.
@@ -86,15 +62,13 @@ export function HeroSection() {
         </HStack>
 
         <motion.div
-          variants={badgeContainerVariants}
-          initial={prefersReducedMotion ? "visible" : "hidden"}
-          animate="visible"
+          initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
           style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}
         >
           {["Open 7 Days", "Walk-ins Welcome", "Expert Barbers"].map((label) => (
-            <motion.div key={label} variants={badgeVariants}>
-              <Badge>{label}</Badge>
-            </motion.div>
+            <Badge key={label}>{label}</Badge>
           ))}
         </motion.div>
       </Stack>
