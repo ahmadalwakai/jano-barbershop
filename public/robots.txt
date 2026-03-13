@@ -3,9 +3,10 @@ User-agent: *
 Allow: /
 Disallow: /api
 Disallow: /admin
+Disallow: /_next
 
 # Host
-Host: https://jan-o.com
+Host: https://www.jan-o.com
 
 # Sitemaps
-Sitemap: https://jan-o.com/sitemap.xml
+Sitemap: https://www.jan-o.com/sitemap.xml

@@ -21,7 +21,7 @@ const faqs = [
   { q: "Do you offer beard trims?", a: "Yes, beard trims start from £10 walk-in. Hot towel shave packages also available from £28." },
 ];
 
-export const revalidate = 0;
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },

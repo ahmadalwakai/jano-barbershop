@@ -7,6 +7,7 @@ import { Providers } from "@/components/Providers";
 import { AmbientBackground } from "@/components/AmbientBackground";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { LocalBusinessSchema, FAQSchema } from "@/components/SchemaMarkup";
 import { BUSINESS_INFO } from "@/lib/business";
 import "./globals.css";
 
@@ -62,6 +63,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`} suppressHydrationWarning>
+      <head>
+        <LocalBusinessSchema />
+        <FAQSchema />
+      </head>
       <body>
         <Providers>
           <AmbientBackground />
