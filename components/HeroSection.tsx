@@ -7,14 +7,11 @@ import {
   Box,
   Button,
   Grid,
-  Heading,
   HStack,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import { motion, useReducedMotion } from "framer-motion";
-
-const MotionHeading = motion.create(Heading);
 
 export function HeroSection() {
   const prefersReducedMotion = useReducedMotion();
@@ -26,16 +23,14 @@ export function HeroSection() {
           Jan Istanbul • Jano
         </Badge>
 
-        <MotionHeading
-          as="h1"
-          size="5xl"
-          lineHeight="1.1"
+        <motion.h1
           initial={prefersReducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", fontWeight: 800, lineHeight: 1.1, color: "white" }}
         >
           Premium Cuts. Classic Style. Glasgow&apos;s Finest.
-        </MotionHeading>
+        </motion.h1>
 
         <Text color="whiteAlpha.800" fontSize="lg">
           Premium barbershop experience in Glasgow for sharp skin fades, traditional shaves, and modern styling.
