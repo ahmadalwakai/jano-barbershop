@@ -15,6 +15,8 @@ const testimonials = [
   { text: "Took my son for a kids fade and he loved it. Professional and welcoming every time.", author: "Liam R." },
 ];
 
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
