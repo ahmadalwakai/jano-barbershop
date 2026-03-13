@@ -8,9 +8,48 @@ import { ServicesPreview } from "@/components/ServicesPreview";
 import { VisitUs } from "@/components/VisitUs";
 
 const testimonials = [
-  { text: "Best skin fade in the area. Clean shop, great atmosphere, and always consistent.", author: "Adam M." },
-  { text: "Booked online and everything was smooth. Friendly team and top-class beard trim.", author: "Yusuf K." },
-  { text: "Took my son for a kids fade and he loved it. Professional and welcoming every time.", author: "Liam R." },
+  {
+    name: "Bob McCallum",
+    avatar: "BM",
+    rating: 5,
+    text: "Good Turkish barbers very friendly staff and reasonable priced haircuts.",
+    badge: "Local Guide · 214 reviews"
+  },
+  {
+    name: "Brian Clayton",
+    avatar: "BC",
+    rating: 5,
+    text: "Friendly staff, a fair price, and great attention to detail — I wouldn't take my hair anywhere else!",
+    badge: "Local Guide · 14 reviews"
+  },
+  {
+    name: "James McLoone",
+    avatar: "JM",
+    rating: 5,
+    text: "So good and so professional — masters of their art. Nothing but praise, keep up the great work and you will always be busy.",
+    badge: "5 reviews"
+  },
+  {
+    name: "Jamielee King",
+    avatar: "JK",
+    rating: 5,
+    text: "My wee boy just got the best comb over he's ever had. The guy was lovely, took his time and was very patient. Would deffo recommend and we will certainly be back!",
+    badge: "2 reviews"
+  },
+  {
+    name: "alan ross",
+    avatar: "AR",
+    rating: 5,
+    text: "Staff are friendly and helpful with the kids and you get a good haircut as well.",
+    badge: "Local Guide · 16 reviews"
+  },
+  {
+    name: "Ruben Arnez",
+    avatar: "RA",
+    rating: 5,
+    text: "Great haircut — they took a lot of time and care and listened to what I wanted.",
+    badge: "Local Guide · 10 reviews"
+  },
 ];
 
 const faqs = [
@@ -63,16 +102,54 @@ export default function HomePage() {
           <ServicesPreview />
         </Container>
 
-        {/* Static Testimonials Section */}
-        <section style={{ padding: "4rem 1.5rem", background: "#111" }}>
-          <h2 style={{ textAlign: "center", color: "white", marginBottom: "2rem" }}>What Our Clients Say</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem", maxWidth: "900px", margin: "0 auto" }}>
+        {/* Google Reviews Section */}
+        <section style={{ padding: "5rem 1.5rem", background: "#111111" }}>
+          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
+            <p style={{ color: "#c9a84c", fontSize: "0.8rem", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "0.5rem", margin: "0 0 0.5rem" }}>
+              Google Reviews
+            </p>
+            <h2 style={{ color: "white", fontSize: "clamp(1.8rem, 4vw, 2.4rem)", fontWeight: 700, margin: "0 0 1rem" }}>
+              What Our Clients Say
+            </h2>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: "#1a1a1a", border: "1px solid #2a2a2a", borderRadius: "999px", padding: "0.5rem 1.2rem" }}>
+              <span style={{ color: "#fbbc04", fontSize: "1rem" }}>★★★★★</span>
+              <span style={{ color: "white", fontWeight: 700, fontSize: "0.95rem" }}>4.3</span>
+              <span style={{ color: "#666", fontSize: "0.85rem" }}>· 94 Reviews on Google</span>
+            </div>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(290px, 1fr))", gap: "1.25rem", maxWidth: "1050px", margin: "0 auto" }}>
             {testimonials.map((t, i) => (
-              <div key={i} style={{ background: "#1a1a1a", border: "1px solid #333", borderRadius: "12px", padding: "1.5rem" }}>
-                <p style={{ color: "#ccc", marginBottom: "1rem" }}>&quot;{t.text}&quot;</p>
-                <p style={{ color: "#c9a84c", fontWeight: 600 }}>— {t.author}</p>
+              <div key={i} style={{ background: "#1a1a1a", border: "1px solid #2a2a2a", borderRadius: "16px", padding: "1.5rem", display: "flex", flexDirection: "column" as const, gap: "0.75rem" }}>
+                <div style={{ color: "#fbbc04", fontSize: "0.9rem", letterSpacing: "2px" }}>
+                  {"★".repeat(t.rating)}
+                </div>
+                <p style={{ color: "#cccccc", lineHeight: 1.65, margin: 0, fontSize: "0.93rem", flexGrow: 1 }}>
+                  &ldquo;{t.text}&rdquo;
+                </p>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", paddingTop: "0.75rem", borderTop: "1px solid #2a2a2a" }}>
+                  <div style={{ width: "40px", height: "40px", borderRadius: "50%", background: "#c9a84c", display: "flex", alignItems: "center", justifyContent: "center", color: "#111", fontWeight: 700, fontSize: "0.78rem", flexShrink: 0 }}>
+                    {t.avatar}
+                  </div>
+                  <div>
+                    <p style={{ color: "white", fontWeight: 600, margin: 0, fontSize: "0.88rem" }}>{t.name}</p>
+                    <p style={{ color: "#555", margin: 0, fontSize: "0.75rem" }}>{t.badge} · Google</p>
+                  </div>
+                  <div style={{ marginLeft: "auto", color: "#4285f4", fontWeight: 700, fontSize: "1rem" }}>G</div>
+                </div>
               </div>
             ))}
+          </div>
+
+          <div style={{ textAlign: "center", marginTop: "2.5rem" }}>
+            <a
+              href="https://www.google.com/maps/place/Jano+Barber"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "#c9a84c", border: "1px solid #c9a84c", borderRadius: "999px", padding: "0.6rem 1.6rem", fontSize: "0.85rem", textDecoration: "none", display: "inline-block", transition: "all 0.2s" }}
+            >
+              See All 94 Reviews on Google →
+            </a>
           </div>
         </section>
 
